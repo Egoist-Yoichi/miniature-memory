@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Be My Valentine 💘</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #ff5f6d, #ffc371);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        touch-action: manipulation;
+    }
+
+    .container {
+        text-align: center;
+        color: white;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    button {
+        padding: 18px 40px;
+        font-size: 22px;
+        border: none;
+        border-radius: 14px;
+        cursor: pointer;
+        margin: 12px;
+    }
+
+    .yes {
+        background: #e63946;
+        color: white;
+    }
+
+    .no {
+        background: #1d3557;
+        color: white;
+        position: fixed;
+        left: 50%;
+        top: 60%;
+        transform: translate(-50%, -50%);
+    }
+
+    .success {
+        position: fixed;
+        inset: 0;
+        background: #ff2e63;
+        color: white;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        z-index: 10;
+        padding: 20px;
+    }
+
+    .success h2 {
+        font-size: 2.4rem;
+        margin-bottom: 10px;
+    }
+
+    .success p {
+        font-size: 1.2rem;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Will you be my Valentine? 💘</h1>
+    <p>This Valentine’s Day… just you and me ❤️</p>
+
+    <button class="yes" onclick="yesClicked()">Yes 💖</button>
+    <button class="no" id="noBtn">No 🙃</button>
+</div>
+
+<div class="success" id="success">
+    <h2>She said YES!!! 💕🥰</h2>
+    <p>This Valentine’s Day is ours ❤️🌹</p>
+</div>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+
+    function moveNoButton() {
+        const padding = 20;
+        const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+        const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+        noBtn.style.transform = "none";
+    }
+
+    // Runs away BEFORE touch on mobile
+    noBtn.addEventListener("touchstart", moveNoButton, { passive: true });
+    noBtn.addEventListener("mouseenter", moveNoButton);
+
+    function yesClicked() {
+        document.getElementById("success").style.display = "flex";
+        startConfetti();
+    }
+
+    function startConfetti() {
+        for (let i = 0; i < 200; i++) {
+            const heart = document.createElement("div");
+            heart.textContent = "❤️";
+            heart.style.position = "fixed";
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.top = "-20px";
+            heart.style.fontSize = "22px";
+            heart.style.zIndex = 20;
+            document.body.appendChild(heart);
+
+            const fall = heart.animate([
+                { transform: "translateY(0)", opacity: 1 },
+                { transform: `translateY(${window.innerHeight + 60}px)`, opacity: 0 }
+            ], {
+                duration: 3000 + Math.random() * 2000,
+                easing: "ease-in"
+            });
+
+            fall.onfinish = () => heart.remove();
+        }
+    }
+</script>
+
+</body>
+</html>
